@@ -6,3 +6,6 @@ authors = ["Benny Klotz <r3qnbenni@gmail.com>", "Johann Hofmann"]
 
 [dependencies.rust-mustache]
 git = "https://github.com/tsurai/rust-mustache"
+
+[dependencies.toml]
+git = "https://github.com/alexcrichton/toml-rs"

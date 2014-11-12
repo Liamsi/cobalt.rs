@@ -3,10 +3,16 @@ name = "cobalt"
 version = "0.0.1"
 dependencies = [
  "rust-mustache 0.3.0 (git+https://github.com/tsurai/rust-mustache)",
+ "toml 0.1.0 (git+https://github.com/alexcrichton/toml-rs)",
 ]
 
 [[package]]
 name = "rust-mustache"
 version = "0.3.0"
 source = "git+https://github.com/tsurai/rust-mustache#ac1eca765639284c10f7a278661cfe2e7075d1cd"
+
+[[package]]
+name = "toml"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/toml-rs#796a127adf15e074f6483da5885dbf26535755b9"
 
