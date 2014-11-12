@@ -1,6 +1,7 @@
 use std::io;
 use std::io::{IoResult, InvalidInput, standard_error};
 use std::io::fs;
+use std::io::File;
 use std::io::fs::PathExtensions;
 
 pub fn copy_recursive_filter(source: &Path, dest: &Path, valid: |&Path| -> bool) -> IoResult<()> {
@@ -22,5 +23,13 @@ pub fn copy_recursive_filter(source: &Path, dest: &Path, valid: |&Path| -> bool)
         Ok(())
     } else {
         Err(standard_error(InvalidInput))
+    }
+}
+
+pub fn parse_file(path: &Path) -> String {
+    match File::open(path) {
+        // TODO handle IOResult
+        Ok(mut x) => x.read_to_string().unwrap(),
+        Err(_) => panic!("File {} doesn't exist\n", path.display())
     }
 }

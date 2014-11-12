@@ -1,5 +1,3 @@
-extern crate libc;
-
 use std::io::fs;
 use std::io::fs::PathExtensions;
 use std::io::File;
@@ -9,10 +7,11 @@ use std::collections::HashMap;
 
 use document::Document;
 use util;
+use configuration;
 
 pub fn build(source: &Path, dest: &Path) -> IoResult<()>{
     // TODO make configurable
-    let template_extensions = ["tpl", "md"];
+    let template_extensions = configuration::allowed_extensions(source);
 
     let layouts_path = source.join("_layouts");
     let mut layouts = HashMap::new();
@@ -70,19 +69,11 @@ fn parse_document(path: &Path, source: &Path) -> Document {
     )
 }
 
-fn parse_file(path: &Path) -> String {
-    match File::open(path) {
-        // TODO handle IOResult
-        Ok(mut x) => x.read_to_string().unwrap(),
-        Err(_) => panic!("File {} doesn't exist\n", path.display())
-    }
-}
-
 fn extract_attributes(path: &Path) -> HashMap<String, String> {
     let mut attributes = HashMap::new();
     attributes.insert("name".to_string(), path.filestem_str().unwrap().to_string());
 
-    let content = parse_file(path);
+    let content = util::parse_file(path);
 
     if content.as_slice().contains("---") {
         let mut content_splits = content.as_slice().split_str("---");
@@ -110,7 +101,7 @@ fn extract_attributes(path: &Path) -> HashMap<String, String> {
 }
 
 fn extract_content(path: &Path) -> String {
-    let content = parse_file(path);
+    let content = util::parse_file(path);
 
     if content.as_slice().contains("---") {
         let mut content_splits = content.as_slice().split_str("---");
